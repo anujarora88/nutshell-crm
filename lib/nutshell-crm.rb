@@ -380,6 +380,7 @@ module NutshellCrm
       if override_method.nil?
         method = caller[0][/`.*'/][1..-2]
         method = 'getApiForUsername' if method == 'initialize'
+	method = camelcase(method)
       else
         method = override_method
       end
@@ -389,7 +390,7 @@ module NutshellCrm
       end
 
       # Create the payload
-      payload = {:method => camelcase(method), :id => generate_request_id}
+      payload = {:method => method, :id => generate_request_id}
 
       # Filter out keys with nil values.
       payload[:params] = params.reject {|k,v| v.nil?} unless params.nil?
